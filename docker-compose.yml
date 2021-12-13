@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  invoice:
+    build: ./invoice
+    container_name: invoice
+    ports:
+      - 3030:3030
+    volumes:
+      - ./invoice:/home/node/invoice
+    depends_on:
+      - rabbitmq
+    networks:
+      - node_qeue_nw
+  store:
+    build: ./store
+    container_name: store
+    ports:
+      - 3040:3040
+    volumes:
+      - ./store:/home/node/store
+    depends_on:
+      - rabbitmq
+    networks:
+      - node_qeue_nw
+  rabbitmq:
+    image: rabbitmq:3.9.7-management-alpine
+    container_name: rabbitmb
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - node_qeue_nw
+networks:
+  node_qeue_nw:
+    driver: bridge

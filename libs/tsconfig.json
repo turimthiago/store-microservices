@@ -1,0 +1,8 @@
+{
+    "files": [],
+    "references": [
+      { "path": "./core-store" },
+      { "path": "./invoice-api" },
+      { "path": "./seller-api" }
+    ]
+  }
