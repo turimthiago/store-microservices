@@ -1,8 +1,8 @@
 export const env = {
-    port: process.env.API_PORT || 3030,
+    port: process.env.API_PORT || 3040,
     exchange: {
         sale: {
-            name: "sale",
-        },
-    },
+            name: 'sale'
+        }
+    }
 };

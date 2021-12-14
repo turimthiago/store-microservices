@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --build && ts-project-bundle --out=build",
+    "build": "rimraf dist && rimraf build && tsc --build && ts-project-bundle --out=build",
     "start": "node ./build/invoice/dist/main/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,8 +18,8 @@
     "@types/module-alias": "^2.0.1",
     "@types/node": "^16.11.1",
     "prettier": "2.4.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
     "amqplib": "^0.8.0",

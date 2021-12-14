@@ -1,3 +1,3 @@
-import { RabbitmqServer } from "../../infra/rabbit/rabbitmq-server";
+import { RabbitmqServer } from '../../infra/rabbit/rabbitmq-server';
 
-export const rabbit = new RabbitmqServer("amqp://admin:admin@localhost:5672");
+export const rabbit = new RabbitmqServer('amqp://admin:admin@rabbitmq:5672');

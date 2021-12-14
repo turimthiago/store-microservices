@@ -6,5 +6,5 @@ COPY tsconfig.json ./
 COPY build /app
 RUN ls -a
 RUN npm install
-EXPOSE 3040
-CMD [ "node", "app/invoice/dist/main/index.js" ]
+EXPOSE 3030
+CMD [ "node", "invoice/dist/main/index.js" ]

@@ -1,6 +1,6 @@
 import { ConsumeMessage } from 'amqplib';
 import { RabbitmqServer } from '../rabbit/rabbitmq-server';
-import { GenerateInvoice } from '../../services/generate-billing';
+import { GenerateInvoice } from '../../services/generate-invoice';
 import { SaleEventBuilder } from '../../../../libs/store-core';
 
 export class SaleConsumer {

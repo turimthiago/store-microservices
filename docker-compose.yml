@@ -1,27 +1,5 @@
 version: "3.9"
 services:
-  invoice:
-    build: ./invoice
-    container_name: invoice
-    ports:
-      - 3030:3030
-    volumes:
-      - ./invoice:/home/node/invoice
-    depends_on:
-      - rabbitmq
-    networks:
-      - node_qeue_nw
-  store:
-    build: ./store
-    container_name: store
-    ports:
-      - 3040:3040
-    volumes:
-      - ./store:/home/node/store
-    depends_on:
-      - rabbitmq
-    networks:
-      - node_qeue_nw
   rabbitmq:
     image: rabbitmq:3.9.7-management-alpine
     container_name: rabbitmb
@@ -31,6 +9,30 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status"]
+      interval: 5s
+      timeout: 20s
+      retries: 5
+    networks:
+      - node_qeue_nw
+  store:
+    build: ./store
+    container_name: store
+    ports:
+      - 3040:3040
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - node_qeue_nw
+  invoice:
+    build: ./invoice
+    container_name: invoice
+    ports:
+      - 3030:3030
+    depends_on:
+      - store
     networks:
       - node_qeue_nw
 networks:
