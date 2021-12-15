@@ -34,17 +34,6 @@ Linux
 ./init.sh
 ```
 
----
-
-## Development setup
-
-Describe how to install all development dependencies and consider do this for multiple platforms.  
-
-```sh
-make install
-npm test
-```
-
 ## Endpoints
 
 ### /api/orders
