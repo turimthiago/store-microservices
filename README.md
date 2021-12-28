@@ -5,12 +5,12 @@
 > Monorepo de exemplo de abrodagem para microserviços utulizando mensageria.
 
 O repositório possui 3 projetos, e mostra uma abordagem simples para trabalho com microserviços utilizando mensageria (RabbiMQ).
-Temos um projeto core, com as classes utilizados pelo microserviços e dois serviços seperadaos. Onde um registra um pedido (store) e o outro processa gerando faturas (invoice).
+Temos um projeto core, com as classes utilizados pelos microserviços e dois serviços seperados. Onde um registra um pedido (store) e o outro processa gerando faturas (invoice).
 
 ---
 
 
-## Technologies
+## :hammer_and_wrench: Technologies
 
 Este projeto utilizou as seguintes tecnologias:
 
@@ -18,13 +18,13 @@ Este projeto utilizou as seguintes tecnologias:
 * Typescript;
 * RabbitMQ;
 
-## Arquitetura
+## :triangular_ruler: Arquitetura
 
 ![Arch](./docs/arch.png)
 
 ---
 
-## Instalacão
+## :floppy_disk: Instalacão
 
 Para executar o projeto deve-se ter instalado o Docker e DockerCompose.
 
@@ -34,7 +34,7 @@ Linux
 ./init.sh
 ```
 
-## Endpoints
+## :left_right_arrow: Endpoints
 
 ### /api/orders
 
