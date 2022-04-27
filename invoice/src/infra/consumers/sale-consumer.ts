@@ -38,8 +38,7 @@ export class SaleConsumer implements RabbitListener {
             const saleEvent = SaleEventBuilder.of(data).build();
             this.generateInvoice.perform({
                 orderCode: saleEvent.orderCode,
-                quantity: saleEvent.quantity,
-                product: saleEvent.product
+                items: saleEvent.items
             });
             Logger.info(
                 `[SaleConsumer] consuming message ${JSON.stringify(saleEvent)}`

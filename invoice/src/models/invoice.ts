@@ -1,31 +1,29 @@
+import { InvoiceItem } from './invoice-item';
+
 export class Invoice {
     id?: string;
     orderCode: string;
     dtCreated: Date;
-    product: string;
-    quantity: number;
     total: number;
+    items: InvoiceItem[];
 
     constructor({
         id,
         orderCode,
         dtCreated,
-        product,
-        quantity,
+        items,
         total
     }: {
         id?: string;
         orderCode: string;
         dtCreated: Date;
-        product: string;
-        quantity: number;
+        items: InvoiceItem[];
         total: number;
     }) {
         this.id = id;
         this.orderCode = orderCode;
         this.dtCreated = dtCreated;
-        this.product = product;
-        this.quantity = quantity;
+        this.items = items;
         this.total = total;
     }
 }

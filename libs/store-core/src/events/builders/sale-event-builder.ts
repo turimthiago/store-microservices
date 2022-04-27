@@ -1,24 +1,17 @@
-import { SaleEvent } from "../sale-event";
+import { SaleEvent, SaleItem } from "../sale-event";
 
 export class SaleEventBuilder {
   private event: SaleEvent;
 
-  private constructor(
-    orderCode: string,
-    item: { productCode: string; quantity: number }
-  ) {
+  private constructor(orderCode: string, items: SaleItem[]) {
     this.event = new SaleEvent({
       orderCode,
-      product: item.productCode,
-      quantity: item.quantity,
+      items,
     });
   }
 
   static of(data: any): SaleEventBuilder {
-    return new SaleEventBuilder(data.orderCode, {
-      productCode: data.productCode,
-      quantity: data.quantity,
-    });
+    return new SaleEventBuilder(data.orderCode, data.items);
   }
 
   build(): SaleEvent {

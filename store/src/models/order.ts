@@ -1,11 +1,16 @@
-import { OrderItem } from "./order-item";
+import { OrderItem } from './order-item';
 
 export class Order {
     id?: string;
-    item: OrderItem;
+    items: OrderItem[] = [];
 
-    constructor({ id, item }: { id?: string; item: OrderItem }) {
-        this.id = id;
-        this.item = item;
+    constructor() {}
+
+    public addItem(item: OrderItem): void {
+        this.items.push(item);
+    }
+
+    public getItems(): OrderItem[] {
+        return this.items;
     }
 }

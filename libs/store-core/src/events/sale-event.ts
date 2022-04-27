@@ -1,19 +1,14 @@
 export class SaleEvent {
-    orderCode: string;
-    product: string;
-    quantity: number;
+  orderCode: string;
+  items: SaleItem[];
 
-    constructor({
-        orderCode,
-        product,
-        quantity,
-    }: {
-        orderCode: string;
-        product: string;
-        quantity: number;
-    }) {
-        this.orderCode = orderCode;
-        this.product = product;
-        this.quantity = quantity;
-    }
+  constructor({ orderCode, items }: { orderCode: string; items: SaleItem[] }) {
+    this.orderCode = orderCode;
+    this.items = items;
+  }
 }
+
+export type SaleItem = {
+  product: string;
+  quantity: number;
+};
