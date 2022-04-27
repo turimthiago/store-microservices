@@ -1,7 +1,8 @@
 import { CreateOrderRepository } from '../../repositories';
 
 import { v4 } from 'uuid';
-import { Logger, Order } from '../../../../libs/store-core/dist';
+import { Logger } from '../../../../libs/store-core';
+import { Order } from '../../models';
 
 export class MemoryOrderRepository implements CreateOrderRepository {
     constructor() {}

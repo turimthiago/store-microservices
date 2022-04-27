@@ -1,4 +1,5 @@
-import { Order, OrderItem, SaleEvent } from '../../../libs/store-core';
+import { SaleEvent } from '../../../libs/store-core';
+import { Order, OrderItem } from '../models';
 import { CreateOrderRepository } from '../repositories';
 import { SalePublisher } from './protocols/sale-publisher';
 
