@@ -18,6 +18,8 @@ services:
       - node_qeue_nw
   store:
     build: ./store
+    env_file:
+      - ./store/.env
     container_name: store
     ports:
       - 3040:3040
@@ -28,6 +30,8 @@ services:
       - node_qeue_nw
   invoice:
     build: ./invoice
+    env_file:
+      - ./invoice/.env
     container_name: invoice
     ports:
       - 3030:3030

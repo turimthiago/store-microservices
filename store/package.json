@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf dist && rimraf build &&  tsc --build && ts-project-bundle --out=build",
+    "start": "node ./build/store/dist/main/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -24,10 +25,11 @@
   "dependencies": {
     "amqplib": "^0.8.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "module-alias": "^2.2.2",
     "ts-node": "^10.3.0",
-    "uuid": "^8.3.2",
-    "ts-project-bundle": "^0.0.10"
+    "ts-project-bundle": "^0.0.10",
+    "uuid": "^8.3.2"
   }
 }

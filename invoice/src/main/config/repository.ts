@@ -1,3 +1,3 @@
-import { MemoryInvoiceRepository } from '../../infra/repositories/momery-invoice-repository';
+import { makeOrderRepository } from '../factories';
 
-export const invoiceRepository = new MemoryInvoiceRepository();
+export const invoiceRepository = makeOrderRepository();

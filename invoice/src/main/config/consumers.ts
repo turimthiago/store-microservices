@@ -1,8 +1,16 @@
-import { SaleConsumer } from '../../infra/consumers/sale-consumer';
+import { SaleConsumer } from '../../infra/consumers';
 import { Rabbit } from '../../infra/rabbit/rabbit';
-import { GenerateInvoice } from '../../services/generate-invoice';
-import { invoiceRepository } from './repository';
+import {
+    GetInvoiceRepository,
+    SaveInvoiceRepository
+} from '../../repositories';
+import { GenerateInvoice } from '../../services';
 
-export const setupConsumers = (rabbit: Rabbit): void => {
+type InvoiceRepository = GetInvoiceRepository & SaveInvoiceRepository;
+
+export const setupConsumers = (
+    rabbit: Rabbit,
+    invoiceRepository: InvoiceRepository
+): void => {
     new SaleConsumer(new GenerateInvoice(invoiceRepository), rabbit);
 };
