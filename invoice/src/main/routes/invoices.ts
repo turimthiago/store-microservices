@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { Logger } from '../../../../libs/store-core';
 import { makeGetInvoice } from '../factories/get-invoice';
 
 export default (router: Router): void => {
@@ -8,7 +9,7 @@ export default (router: Router): void => {
             const invoices = await getInvoice.perform();
             res.status(200).json({ invoices });
         } catch (error) {
-            console.log(error);
+            if (error instanceof Error) Logger.error(error.message);
             res.status(500).json({ message: 'Deu ruim' });
         }
     });

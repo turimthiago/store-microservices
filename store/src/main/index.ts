@@ -1,6 +1,7 @@
-import { env } from "./config/env";
-import { app } from "./config/app";
+import { env } from './config/env';
+import { app } from './config/app';
+import { Logger } from '../../../libs/store-core';
 
 app.listen(env.port, () =>
-    console.log(`[seller-api] running at http://localhost:${env.port}`)
+    Logger.info(`[seller-api] running at http://localhost:${env.port}`)
 );

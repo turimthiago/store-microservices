@@ -11,8 +11,8 @@ services:
       - 5672:5672
     healthcheck:
       test: [ "CMD", "rabbitmqctl", "status"]
-      interval: 5s
-      timeout: 20s
+      interval: 30s
+      timeout: 30s
       retries: 5
     networks:
       - node_qeue_nw

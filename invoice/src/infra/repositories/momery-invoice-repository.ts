@@ -1,3 +1,4 @@
+import { Logger } from '../../../../libs/store-core';
 import { Invoice } from '../../models';
 import {
     GetInvoiceRepository,
@@ -9,12 +10,13 @@ export class MemoryInvoiceRepository
 {
     invoices: Invoice[] = [];
     async get(): Promise<Invoice[]> {
-        console.log(this.invoices);
         return this.invoices;
     }
 
     async save(invoice: Invoice): Promise<void> {
+        Logger.info(
+            `[MemoryInvoiceRepository] saing invoice ${JSON.stringify(invoice)}`
+        );
         this.invoices.push(invoice);
-        console.log(this.invoices);
     }
 }

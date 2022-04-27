@@ -1,6 +1,6 @@
-import { Order, OrderItem, SaleEvent } from "../../../libs/store-core";
-import { SalePublisher } from "../main/publishers/sale-publisher";
-import { CreateOrderRepository } from "../repositories";
+import { Order, OrderItem, SaleEvent } from '../../../libs/store-core';
+import { CreateOrderRepository } from '../repositories';
+import { SalePublisher } from './protocols/sale-publisher';
 
 export class CreateOrder {
     constructor(
@@ -8,19 +8,18 @@ export class CreateOrder {
         private readonly salePublisher: SalePublisher
     ) {}
 
-    async perform({ product, quantity }: CreateOrder.Params): Promise<string> {
+    async perform({ product, quantity }: CreateOrder.Params): Promise<void> {
         const item = new OrderItem({ product, quantity });
         const order = new Order({
-            item,
+            item
         });
         const id = await this.createOrderRepository.createOrder(order);
         const event = new SaleEvent({
             orderCode: id,
             product,
-            quantity,
+            quantity
         });
-        await this.salePublisher.publish(event);
-        return id;
+        this.salePublisher.publish(event);
     }
 }
 

@@ -4,12 +4,7 @@ import { setupConsumers } from './consumers';
 import { rabbit } from './rabbit';
 import { setupRoutes } from './routes';
 
-rabbit
-    .start()
-    .then(() => {
-        setupConsumers(rabbit);
-    })
-    .catch((err) => console.log(err));
+rabbit.connect();
 const app = express();
 app.use(cors());
 app.use(json());
@@ -18,5 +13,6 @@ app.use((req, res, next) => {
     next();
 });
 setupRoutes(app);
+setupConsumers(rabbit);
 
 export { app };
