@@ -46,17 +46,33 @@ Método **POST**.
 Request - dados do pedido
 ```javascript
 {
-	"product" : "Vanilla Ice Cream",
-	"quantity" : "2"
+    "items": [
+        {
+            "product": "Leite Longa Vida 1lt",
+            "quantity": 10
+        }
+    ]
 }
+```
+Response 201 - Sucesso
+
+Buscar Pedidos
+Método **GET**
+Request - dados do pedido
+```javascript
+[
+    {
+        "items": [
+            {
+                "product": "Leite Longa Vida 1lt",
+                "quantity": 10
+            }
+        ],
+        "id": "bce46ab3-5800-4a57-90ac-a4dbf2219ed5"
+    }
+]
 ```
 
-Response
-```javascript
-{
-	id: "121231asderf2333$"
-}
-```
 
 ### api/invoices
 
@@ -70,10 +86,15 @@ Response
 {
     "invoices": [
         {
-            "orderCode": "561a0c0c-de4a-4e40-96d3-fccb8764c446",
-            "dtCreated": "2021-12-15T13:48:07.212Z",
-            "quantity": "2",
-            "total": 3.98
+            "orderCode": "bce46ab3-5800-4a57-90ac-a4dbf2219ed5",
+            "dtCreated": "2022-04-27T18:23:03.415Z",
+            "items": [
+                {
+                    "product": "Leite Longa Vida 1lt",
+                    "quantity": 10
+                }
+            ],
+            "total": 19.9
         }
     ]
 }
