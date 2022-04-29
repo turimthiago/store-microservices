@@ -26,6 +26,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
+    "prom-client": "^14.0.1",
     "ts-node": "^10.3.0",
     "ts-project-bundle": "^0.0.10"
   }

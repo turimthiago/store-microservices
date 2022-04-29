@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "express-prom-bundle": "^6.4.1",
+    "prom-client": "^14.0.1"
+  }
+}

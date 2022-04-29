@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'prometheus:9090' ]
+  - job_name: 'store'
+    scrape_interval: 5s
+    metrics_path: 'api/health'
+    static_configs:
+      - targets: [ 'store:3040' ]
+  - job_name: 'invoice'
+    scrape_interval: 5s
+    metrics_path: 'api/health'
+    static_configs:
+      - targets: [ 'invoice:3030' ]
