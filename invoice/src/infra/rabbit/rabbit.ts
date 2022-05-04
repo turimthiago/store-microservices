@@ -24,8 +24,26 @@ export class Rabbit {
             this._connection = await connect(this._uri);
             Logger.info(`Rabbit] connected Rabbit ${this._uri}`);
             const channel = await this._connection.createChannel();
-            await channel.assertQueue('invoice.sale');
-            await channel.bindQueue('invoice.sale', 'store.sale', '');
+            await channel.assertExchange('invoice.sale', 'topic', {
+                durable: true
+            });
+            await channel.bindExchange('invoice.sale', 'store.sale', '');
+            await channel.assertQueue('invoice.sale.work', { durable: true });
+            await channel.assertQueue('invoice.sale.retry', {
+                durable: true,
+                deadLetterExchange: 'invoice.sale',
+                deadLetterRoutingKey: 'dlq',
+                messageTtl: 5 * 60 * 1000
+            });
+            await channel.assertQueue('invoice.sale.fail', { durable: true });
+            await channel.assertQueue('invoice.sale.dlq', { durable: true });
+            await channel.bindQueue('invoice.sale.work', 'invoice.sale', '');
+            await channel.bindQueue(
+                'invoice.sale.retry',
+                'invoice.sale',
+                'retry'
+            );
+            await channel.bindQueue('invoice.sale.dlq', 'invoice.sale', 'dlq');
             channel.close();
 
             this._connection.on('close', () => this.connect());

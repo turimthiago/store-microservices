@@ -12,8 +12,11 @@ export default (router: Router): void => {
     const createOrder = makeCreateOrder(orderRepository);
     router.post('/orders', async (req, res) => {
         try {
+            Logger.info(
+                `[CreateOrderController] data ${JSON.stringify(req.body)}`
+            );
             const { items } = req.body;
-            const id = await createOrder.perform({ items });
+            await createOrder.perform({ items });
             res.status(201).end();
         } catch (error) {
             if (error instanceof Error) Logger.error(error.message);

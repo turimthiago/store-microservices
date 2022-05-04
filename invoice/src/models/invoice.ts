@@ -26,4 +26,10 @@ export class Invoice {
         this.items = items;
         this.total = total;
     }
+
+    getItem(code: string): InvoiceItem | undefined {
+        const items = this.items.filter((item) => item.code === code);
+        if (items.length === 0) return undefined;
+        return items[0];
+    }
 }

@@ -6,6 +6,7 @@ export class GetProductByCodeController {
     constructor(private readonly getProdutByCode: GetProductByCode) {}
 
     async handle(req: Request, res: Response): Promise<Response> {
+        Logger.info(`[GetProductByCodeController] ${req.params.code}`);
         try {
             const code = req.params.code as string;
             Logger.info(`[GetProductByCodeController] code ${code}`);

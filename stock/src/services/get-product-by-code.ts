@@ -1,4 +1,4 @@
-import { Logger } from '../../../libs/store-core/src';
+import { Logger } from '../../../libs/store-core';
 import { ProductNotFoundError } from '../errors';
 import { Product } from '../models/products';
 import { FindProductByCode } from './protocols';

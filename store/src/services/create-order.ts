@@ -9,16 +9,16 @@ export class CreateOrder {
         private readonly salePublisher: SalePublisher
     ) {}
 
-    async perform(params: CreateOrder.Params): Promise<void> {
-        Logger.info(`[CreateOrder] creating order ${JSON.stringify(params)}`);
-        const order = new Order();
-        order.items = params.items;
+    async perform({ items }: CreateOrder.Params): Promise<void> {
+        Logger.info(`[CreateOrder] creating order ${JSON.stringify(items)}`);
+        const order = new Order({ items });
         const { id } = await this.createOrderRepository.createOrder(order);
+        Logger.info(`[CreateOrder] created order ${id}`);
         const event = new SaleEvent({
             orderCode: id!,
             items: order.items
         });
-        Logger.info(`[CreateOrder] created order ${JSON.stringify(order)}`);
+        Logger.info(`[CreateOrder] pulish event ${JSON.stringify(event)}`);
         this.salePublisher.publish(event);
     }
 }

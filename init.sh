@@ -4,6 +4,8 @@ npm run build --prefix ./invoice/
 echo "[invoice builded]"
 npm run build --prefix ./store/
 echo "[store builded]"
+npm run build --prefix ./stock/
+echo "[stock builded]"
 echo "builded microservices"
 echo "-------------------------------------------------------------------------"
 echo "microservices container starting"

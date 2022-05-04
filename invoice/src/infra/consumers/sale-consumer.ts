@@ -25,18 +25,19 @@ export class SaleConsumer implements RabbitListener {
         Logger.info('[SaleConsumer] onConnect');
         this._rabbit = rabbit;
         const channel = await this.getChannel();
-        channel.consume('invoice.sale', (msg) => this.onMessage(msg), {
+        channel.consume('invoice.sale.work', (msg) => this.onMessage(msg), {
             noAck: false
         });
     }
 
     async onMessage(msg: ConsumeMessage | null): Promise<void> {
+        Logger.info(`[SaleConsumer] onMessage `);
         if (!msg) return;
         const channel = await this.getChannel();
         try {
             const data = JSON.parse(msg.content.toString());
             const saleEvent = SaleEventBuilder.of(data).build();
-            this.generateInvoice.perform({
+            await this.generateInvoice.perform({
                 orderCode: saleEvent.orderCode,
                 items: saleEvent.items
             });
@@ -45,9 +46,10 @@ export class SaleConsumer implements RabbitListener {
             );
             channel.ack(msg);
         } catch (e) {
-            channel.nack(msg);
+            Logger.error(`[SaleConsumer]  ${e}`);
+            channel.ack(msg);
             const count = msg.properties.headers['x-retry-count'] || 0;
-            channel.publish('retry', 'retry', msg.content, {
+            channel.publish('invoice.sale', 'retry', msg.content, {
                 headers: {
                     'x-retry-count': count + 1
                 }
