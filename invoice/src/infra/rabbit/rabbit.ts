@@ -1,5 +1,6 @@
 import { connect, Connection, Channel } from 'amqplib';
 import { Logger } from '../../../../libs/store-core';
+import { invoiceSale, sale } from './constants';
 
 export class Rabbit {
     private _listeners: RabbitListener[] = [];
@@ -24,10 +25,44 @@ export class Rabbit {
             this._connection = await connect(this._uri);
             Logger.info(`Rabbit] connected Rabbit ${this._uri}`);
             const channel = await this._connection.createChannel();
-            await channel.assertQueue('invoice.sale');
-            await channel.bindQueue('invoice.sale', 'store.sale', '');
+            await Promise.all([
+                channel.assertExchange(invoiceSale.name, 'topic', {
+                    durable: true
+                }),
+                channel.bindExchange(invoiceSale.name, sale.name, ''),
+                channel.assertQueue(invoiceSale.work.name, {
+                    durable: true
+                }),
+                channel.bindQueue(invoiceSale.work.name, invoiceSale.name, ''),
+                channel.assertQueue(invoiceSale.retry.name, {
+                    durable: true,
+                    deadLetterExchange: invoiceSale.name,
+                    deadLetterRoutingKey: invoiceSale.dlq.routingKey,
+                    messageTtl: 5 * 60 * 1000
+                }),
+                channel.bindQueue(
+                    invoiceSale.retry.name,
+                    invoiceSale.name,
+                    invoiceSale.retry.routingKey
+                ),
+                channel.assertQueue(invoiceSale.fail.name, {
+                    durable: true
+                }),
+                channel.bindQueue(
+                    invoiceSale.fail.name,
+                    invoiceSale.name,
+                    invoiceSale.fail.routingKey
+                ),
+                channel.assertQueue(invoiceSale.dlq.name, {
+                    durable: true
+                }),
+                channel.bindQueue(
+                    invoiceSale.dlq.name,
+                    invoiceSale.name,
+                    invoiceSale.dlq.routingKey
+                )
+            ]);
             channel.close();
-
             this._connection.on('close', () => this.connect());
             this._listeners.forEach(async (listener) =>
                 listener.onConnect(this)

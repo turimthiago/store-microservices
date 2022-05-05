@@ -20,7 +20,7 @@ Este projeto utilizou as seguintes tecnologias:
 
 ## :triangular_ruler: Arquitetura
 
-![Arch](./docs/arch.png)
+![Arch](./docs/architecture.png)
 
 ---
 

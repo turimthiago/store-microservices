@@ -5,6 +5,9 @@ export const env = {
             name: 'store.sale'
         }
     },
+    stockApi: {
+        url: process.env.STOCK_API || ''
+    },
     rabbitMq: {
         port: process.env.RABBITMQ_PORT,
         host: process.env.RABBITMQ_HOST,

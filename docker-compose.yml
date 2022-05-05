@@ -46,6 +46,7 @@ services:
       - logstash
     networks:
       - node_qeue_nw
+<<<<<<< HEAD
   prometheus:
     image: prom/prometheus:v2.26.0
     container_name: prometheus
@@ -125,6 +126,34 @@ services:
       driver: gelf
       options:
         gelf-address: udp://localhost:12201
+=======
+  stock:
+    build: ./stock
+    env_file:
+      - ./stock/.env
+    container_name: stock
+    ports:
+      - 3050:3050
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - node_qeue_nw
+  postgres:
+    container_name: 'postgres'
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - node_qeue_nw
+>>>>>>> master
 networks:
   node_qeue_nw:
     driver: bridge

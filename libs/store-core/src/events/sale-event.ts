@@ -9,6 +9,7 @@ export class SaleEvent {
 }
 
 export type SaleItem = {
+  code: string;
   product: string;
   quantity: number;
 };
