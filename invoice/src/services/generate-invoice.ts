@@ -31,17 +31,22 @@ export class GenerateInvoice {
             this.stockRepository.findProduct({ code })
         );
         const stockItems = await Promise.all(promisses);
+        if (stockItems.some((item) => !item)) {
+            throw new ProductStockNotFound(`Product not found at stock`);
+        }
         Logger.info(
             `[GenerateInvoice] check stock ${JSON.stringify(stockItems)}`
         );
         stockItems.forEach((item) => {
-            const invoiceItem = invoice.getItem(item.code);
-            if (!invoiceItem)
-                throw new DomainError(
-                    `Product ${item.code} not found at invoice`
-                );
-            if (item.quantity < invoiceItem.quantity)
-                throw new ProductStockNotFound(`Product ${item.code}`);
+            if (item) {
+                const invoiceItem = invoice.getItem(item.code);
+                if (!invoiceItem)
+                    throw new DomainError(
+                        `Product ${item.code} not found at invoice`
+                    );
+                if (item.quantity < invoiceItem.quantity)
+                    throw new ProductStockNotFound(`Product ${item.code}`);
+            }
         });
 
         this.invoiceRepository.save(invoice);

@@ -3,6 +3,8 @@ import { Channel } from 'amqplib';
 import { GenerateInvoice } from '../../services/generate-invoice';
 import { Logger, SaleEventBuilder } from '../../../../libs/store-core';
 import { Rabbit, RabbitListener } from '../rabbit/rabbit';
+import { DomainError } from '../../errors';
+import { invoiceSale } from '../rabbit';
 
 export class SaleConsumer implements RabbitListener {
     private _channel?: Channel;
@@ -34,9 +36,9 @@ export class SaleConsumer implements RabbitListener {
         Logger.info(`[SaleConsumer] onMessage `);
         if (!msg) return;
         const channel = await this.getChannel();
+        const data = JSON.parse(msg.content.toString());
+        const saleEvent = SaleEventBuilder.of(data).build();
         try {
-            const data = JSON.parse(msg.content.toString());
-            const saleEvent = SaleEventBuilder.of(data).build();
             await this.generateInvoice.perform({
                 orderCode: saleEvent.orderCode,
                 items: saleEvent.items
@@ -45,15 +47,38 @@ export class SaleConsumer implements RabbitListener {
                 `[SaleConsumer] consuming message ${JSON.stringify(saleEvent)}`
             );
             channel.ack(msg);
-        } catch (e) {
-            Logger.error(`[SaleConsumer]  ${e}`);
-            channel.ack(msg);
-            const count = msg.properties.headers['x-retry-count'] || 0;
-            channel.publish('invoice.sale', 'retry', msg.content, {
-                headers: {
-                    'x-retry-count': count + 1
-                }
-            });
+        } catch (e: any) {
+            if (e instanceof DomainError) {
+                channel.ack(msg);
+                channel.publish(
+                    invoiceSale.name,
+                    invoiceSale.fail.routingKey,
+                    Buffer.from(
+                        JSON.stringify({
+                            event: saleEvent,
+                            error: `${e.message} ${e.name}`
+                        })
+                    )
+                );
+                Logger.info(
+                    `[SaleConsumer] publishing event to fail ${JSON.stringify(
+                        saleEvent
+                    )} error ${e.message} ${e.name}`
+                );
+            } else {
+                channel.ack(msg);
+                const count = msg.properties.headers['x-retry-count'] || 0;
+                channel.publish('invoice.sale', 'retry', msg.content, {
+                    headers: {
+                        'x-retry-count': count + 1
+                    }
+                });
+                Logger.info(
+                    `[SaleConsumer] publishing event to retry ${JSON.stringify(
+                        saleEvent
+                    )} count try ${count}`
+                );
+            }
         }
     }
 }

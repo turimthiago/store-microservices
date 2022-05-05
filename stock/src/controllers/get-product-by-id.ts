@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Logger } from '../../../libs/store-core';
+import { DomainError, ProductNotFoundError } from '../errors';
 import { GetProductByCode } from '../services';
 
 export class GetProductByCodeController {
@@ -17,6 +18,12 @@ export class GetProductByCodeController {
             const product = await this.getProdutByCode.perform({ code });
             return res.status(200).json(product);
         } catch (error) {
+            if (error instanceof ProductNotFoundError) {
+                return res.status(404).json(error.message);
+            }
+            if (error instanceof DomainError) {
+                return res.status(400).json(`Domain error ${error.message}`);
+            }
             return res.status(500).json('Internal server error');
         }
     }
