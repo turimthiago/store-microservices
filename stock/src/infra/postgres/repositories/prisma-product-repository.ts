@@ -10,7 +10,12 @@ export class PrismaProductRepository implements FindProductByCode {
             where: { cd_product: code }
         });
         return entity
-            ? new Product({ id: entity.id, quantity: entity.qt_stock, code })
+            ? new Product({
+                  id: entity.id,
+                  quantity: entity.qt_stock,
+                  code,
+                  blocked: entity.in_blocked
+              })
             : undefined;
     }
 }
