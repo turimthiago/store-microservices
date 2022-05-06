@@ -1,14 +1,8 @@
 export const env = {
-    port: process.env.API_PORT,
-    exchange: {
-        sale: {
-            name: 'store.sale'
-        }
-    },
-    rabbitMq: {
-        port: process.env.RABBITMQ_PORT,
-        host: process.env.RABBITMQ_HOST,
-        user: process.env.RABBITMQ_USER,
-        password: process.env.RABBITMQ_PASSWORD
+    port: process.env.API_PORT || 3050,
+    database: {
+        url:
+            process.env.DATABASE_URL ||
+            'postgresql://postgres:admin@postgres:5432/stock'
     }
 };

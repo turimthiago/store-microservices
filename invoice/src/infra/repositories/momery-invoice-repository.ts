@@ -15,7 +15,9 @@ export class MemoryInvoiceRepository
 
     async save(invoice: Invoice): Promise<void> {
         Logger.info(
-            `[MemoryInvoiceRepository] saing invoice ${JSON.stringify(invoice)}`
+            `[MemoryInvoiceRepository] saving invoice ${JSON.stringify(
+                invoice
+            )}`
         );
         this.invoices.push(invoice);
     }

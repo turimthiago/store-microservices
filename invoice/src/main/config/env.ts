@@ -6,12 +6,12 @@ export const env = {
         }
     },
     stockApi: {
-        url: process.env.STOCK_API || ''
+        url: process.env.STOCK_API || 'http://stock:3050'
     },
     rabbitMq: {
-        port: process.env.RABBITMQ_PORT,
-        host: process.env.RABBITMQ_HOST,
-        user: process.env.RABBITMQ_USER,
-        password: process.env.RABBITMQ_PASSWORD
+        port: process.env.RABBITMQ_PORT || 5672,
+        host: process.env.RABBITMQ_HOST || 'rabbitmq',
+        user: process.env.RABBITMQ_USER || 'admin',
+        password: process.env.RABBITMQ_PASSWORD || 'admin'
     }
 };

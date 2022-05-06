@@ -1,5 +1,5 @@
 import { Logger } from '../../../libs/store-core';
-import { ProductNotFoundError } from '../errors';
+import { ProductBlockedError, ProductNotFoundError } from '../errors';
 import { Product } from '../models/products';
 import { FindProductByCode } from './protocols';
 
@@ -8,9 +8,11 @@ export class GetProductByCode {
 
     async perform({ code }: GetStockByProducts.Params): Promise<Product> {
         const product = await this.productRepository.findByCode(code);
-        Logger.info(`[GetProductByCode] product ${JSON.stringify(product)}`);
         if (!product)
             throw new ProductNotFoundError(`Product ${code} is not found`);
+        if (product.blocked)
+            throw new ProductBlockedError(`Product ${code} is blocked`);
+        Logger.info(`[GetProductByCode] product ${JSON.stringify(product)}`);
         return product;
     }
 }

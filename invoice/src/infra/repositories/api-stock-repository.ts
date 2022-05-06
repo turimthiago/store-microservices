@@ -18,11 +18,11 @@ export class ApiStockRepository implements FindStockProduct {
             Logger.info(`[ApiStockRepository] geting stock uri ${uri}`);
             const response = await axios.get(uri, {
                 validateStatus: (status) => {
-                    return status < 500; // Resolve only if the status code is less than 500
+                    return status < 500;
                 }
             });
             Logger.info(
-                `[ApiStockRepository] gating stock Response ${
+                `[ApiStockRepository] getting stock Response ${
                     response.status
                 } ${JSON.stringify(response.data)}`
             );
