@@ -12,7 +12,7 @@ type Queue = {
 };
 
 export const sale: Exchange = {
-    name: 'store.sale'
+    name: 'sale'
 };
 
 type RequiredQueues = Required<Exchange>;

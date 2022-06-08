@@ -29,10 +29,12 @@ export class Rabbit {
                 channel.assertExchange(invoiceSale.name, 'topic', {
                     durable: true
                 }),
-                channel.bindExchange(invoiceSale.name, sale.name, ''),
                 channel.assertQueue(invoiceSale.work.name, {
                     durable: true
-                }),
+                })
+            ]);
+            await Promise.all([
+                channel.bindQueue(invoiceSale.work.name, sale.name, 'sale'),
                 channel.bindQueue(invoiceSale.work.name, invoiceSale.name, ''),
                 channel.assertQueue(invoiceSale.retry.name, {
                     durable: true,

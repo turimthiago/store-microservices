@@ -48,8 +48,7 @@ export class GenerateInvoice {
                     throw new ProductStockNotFound(`Product ${item.code}`);
             }
         });
-
-        this.invoiceRepository.save(invoice);
+        await this.invoiceRepository.save(invoice);
     }
 }
 
