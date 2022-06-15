@@ -18,8 +18,8 @@ export class CreateOrder {
             orderCode: id!,
             items: order.items
         });
-        Logger.info(`[CreateOrder] pulish event ${JSON.stringify(event)}`);
-        this.salePublisher.publish(event);
+        Logger.info(`[CreateOrder] publish event ${JSON.stringify(event)}`);
+        await this.salePublisher.publish(event);
     }
 }
 

@@ -37,6 +37,7 @@ services:
       - 3030:3030
     depends_on:
       - store
+      - mongo
     networks:
       - node_qeue_nw
   stock:
@@ -63,6 +64,24 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - node_qeue_nw
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: invoice
+    healthcheck:
+      test: ["CMD","mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ./invoice/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - 27017:27017
     networks:
       - node_qeue_nw
 networks:

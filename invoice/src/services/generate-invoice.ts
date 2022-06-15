@@ -13,20 +13,10 @@ export class GenerateInvoice {
 
     async perform({ orderCode, items }: GenerateInvoice.Params): Promise<void> {
         Logger.info(`[GenerateInvoice] generating ${orderCode}`);
-        const total = items.reduce(
-            (total, item) => total + item.quantity * 1.99,
-            0
-        );
         const invoiceItems = items.map(
             ({ product, quantity, code }) =>
                 new InvoiceItem({ code, product, quantity })
         );
-        const invoice = new Invoice({
-            dtCreated: new Date(),
-            orderCode,
-            items: invoiceItems,
-            total
-        });
         const promisses = items.map(({ code }) =>
             this.stockRepository.findProduct({ code })
         );
@@ -37,6 +27,11 @@ export class GenerateInvoice {
         Logger.info(
             `[GenerateInvoice] check stock ${JSON.stringify(stockItems)}`
         );
+        const invoice = new Invoice({
+            dtCreated: new Date(),
+            orderCode,
+            items: invoiceItems
+        });
         stockItems.forEach((item) => {
             if (item) {
                 const invoiceItem = invoice.getItem(item.code);

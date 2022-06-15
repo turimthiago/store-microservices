@@ -3,8 +3,8 @@ RUN apk update
 WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
-COPY build /app
-RUN ls -a
 RUN npm install
+COPY build /app
 EXPOSE 3040
-CMD [ "node", "store/dist/main/index.js" ]
+ENTRYPOINT [ "node" ]
+CMD [  "store/dist/main/index.js" ]

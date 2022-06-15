@@ -9,5 +9,6 @@ module.exports = {
   transform: {
     '\\.ts$': 'ts-jest'
   },
+  setupFiles: ["<rootDir>/tests/setup.ts"],
   clearMocks: true
 };

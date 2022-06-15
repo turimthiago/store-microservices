@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rimraf dist && rimraf build &&  tsc --build && ts-project-bundle --out=build",
     "start": "node ./build/store/dist/main/index.js",
+    "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,6 +19,7 @@
     "@types/module-alias": "^2.0.1",
     "@types/node": "^16.11.1",
     "@types/uuid": "^8.3.3",
+    "concurrently": "^7.2.1",
     "prettier": "2.4.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.5.2"

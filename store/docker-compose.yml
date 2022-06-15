@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3.9.7-management-alpine
+    container_name: rabbitmb
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - 15672:15672
+      - 5672:5672
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+    networks:
+      - node_qeue_nw
+  store:
+    build: ./dev
+    env_file:
+      - ./store/.env
+    container_name: store
+    volumes:
+      - .:/app:ro
+    ports:
+      - 3040:3040
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - node_qeue_nw
+networks:
+  node_qeue_nw:
+    driver: bridge
